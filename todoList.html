@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Todos</title>
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+</head>
+
+<body>
+    <div style="min-height: 100vh;" class="bg-dark w-100 d-flex justify-content-center align-items-center">
+        <div class="container text-center">
+            <h1 class="text-light mb-4">TODO List</h1>
+            <button id="quote" onclick="getTodo()" class="btn btn-success btn-lg shadow">Generate quote</button>
+            <div id="result" class="my-5">
+
+            </div>
+        </div>
+    </div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+    crossorigin="anonymous"></script>
+<script>
+    const getTodo = () => {
+        fetch("https://dummyjson.com/todos", {
+            method: "GET"
+        }).then(response => {
+            // console.log(response);
+            response.json().then(output => {
+                console.log(output.todos);
+                const alltodos = output.todos
+                const randomIndex = Math.floor(Math.random() * alltodos.length)
+                console.log(randomIndex);
+                const displayTodo = alltodos[randomIndex]
+                console.log(displayTodo);
+
+                const status = displayTodo.completed ? `<span class="bg-success">Completed</span>` : `<span class="bg-warning text-dark">Pending</span>`;
+                result.innerHTML = `
+                <div class="card shadow-lg border-0">
+                    <div class="card-body">
+                        <h4 class="card-title mb-3 text-primary">${displayTodo.todo}</h4>
+                        <p class="card-text">user id: <span class="fw-bold">${displayTodo.userId}</span></p>
+                        <p>${status}</p>
+                    </div>
+                    
+                </div>
+            `
+
+
+            })
+
+        })
+    }
+</script>
+
+</html>
